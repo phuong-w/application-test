@@ -42,6 +42,8 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->assisnRole(Acl::ROLE_ROLE_CUSTOMER);
+
         event(new Registered($user));
 
         Auth::login($user);

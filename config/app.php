@@ -128,6 +128,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Api Key
+    |--------------------------------------------------------------------------
+    |
+    | This key is used to validate the requests coming to the unauthenticated routes.
+    |
+    */
+
+    'api_key' => env('API_KEY', 'RANDOM_STUFF'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------
     |
@@ -168,6 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
     ])->toArray(),
 
     /*

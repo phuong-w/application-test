@@ -1,0 +1,645 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths:
+  /api/auth/login:
+    post:
+      summary: Login.
+      operationId: login
+      description: 'This endpoint let the user login to the system and return them with a token for authenticate on authenticated endpoints'
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 32
+                    name: 'Liam Lubowitz'
+                    email: felix33@example.org
+                    token: null
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 32
+                      name:
+                        type: string
+                        example: 'Liam Lubowitz'
+                      email:
+                        type: string
+                        example: felix33@example.org
+                      token:
+                        type: string
+                        example: null
+      tags:
+        - 'Authentication Endpoints'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: required.
+                  example: user@test.com
+                password:
+                  type: string
+                  description: required.
+                  example: password
+      security: []
+  /api/auth/logout:
+    post:
+      summary: Logout.
+      operationId: logout
+      description: 'Log the user out of the system and provoke the Bearer Key'
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: 'true'
+                  data: []
+                  error: ''
+                properties:
+                  success:
+                    type: string
+                    example: 'true'
+                  data:
+                    type: array
+                    example: []
+                  error:
+                    type: string
+                    example: ''
+      tags:
+        - 'Authentication Endpoints'
+  /api/v1/product:
+    get:
+      summary: 'Get a list of products.'
+      operationId: getAListOfProducts
+      description: 'This endpoint lets you get a list of products'
+      parameters:
+        -
+          in: query
+          name: limit
+          description: 'The number of resource that will show and then paginate.'
+          example: 50
+          required: false
+          schema:
+            type: integer
+            description: 'The number of resource that will show and then paginate.'
+            example: 50
+        -
+          in: query
+          name: search
+          description: 'The keyword for the name or the slug of the products.'
+          example: null
+          required: false
+          schema:
+            type: string
+            description: 'The keyword for the name or the slug of the products.'
+            example: null
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Product Endpoints'
+    post:
+      summary: 'Create the product of the current user'
+      operationId: createTheProductOfTheCurrentUser
+      description: ''
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Product Endpoints'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the product.'
+                  example: No-example
+                store_id:
+                  type: string
+                  description: 'The id of the store.'
+                  example: No-example
+                description:
+                  type: string
+                  description: 'The description of the product.'
+                  example: null
+                price:
+                  type: number
+                  description: 'The price of the product. Must be at least 0.'
+                  example: 0.0
+                quantity:
+                  type: number
+                  description: 'The quantity of the product. Must be at least 1.'
+                  example: 0.0
+              required:
+                - name
+                - store_id
+                - price
+                - quantity
+  '/api/v1/product/{slug}':
+    get:
+      summary: 'Get the specific product by its slug.'
+      operationId: getTheSpecificProductByItsSlug
+      description: 'This endpoint lets you get the specific product by using its slug'
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 42
+                    store_id: 4
+                    user_id: 4
+                    name: 'Sit porro hic.'
+                    slug: sit-porro-hic
+                    description: 'Non qui recusandae iure et. Nostrum esse aliquam necessitatibus asperiores inventore distinctio aut. Vitae voluptatem eaque molestias. Et reiciendis a quas molestiae hic tempora.'
+                    price: '1,819'
+                    quantity: 2
+                    status: null
+                    created_at: '2023-08-21T16:18:24.000000Z'
+                    updated_at: '2023-08-21T16:18:24.000000Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 42
+                      store_id:
+                        type: integer
+                        example: 4
+                      user_id:
+                        type: integer
+                        example: 4
+                      name:
+                        type: string
+                        example: 'Sit porro hic.'
+                      slug:
+                        type: string
+                        example: sit-porro-hic
+                      description:
+                        type: string
+                        example: 'Non qui recusandae iure et. Nostrum esse aliquam necessitatibus asperiores inventore distinctio aut. Vitae voluptatem eaque molestias. Et reiciendis a quas molestiae hic tempora.'
+                      price:
+                        type: string
+                        example: '1,819'
+                      quantity:
+                        type: integer
+                        example: 2
+                      status:
+                        type: string
+                        example: null
+                      created_at:
+                        type: string
+                        example: '2023-08-21T16:18:24.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2023-08-21T16:18:24.000000Z'
+      tags:
+        - 'Product Endpoints'
+    parameters:
+      -
+        in: path
+        name: slug
+        description: 'The slug of the product.'
+        example: sequi
+        required: true
+        schema:
+          type: string
+  '/api/v1/product/{product}':
+    put:
+      summary: 'Update the product of the current user'
+      operationId: updateTheProductOfTheCurrentUser
+      description: ''
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Product Endpoints'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the product.'
+                  example: No-example
+                store_id:
+                  type: string
+                  description: 'The id of the store.'
+                  example: No-example
+                description:
+                  type: string
+                  description: 'The description of the product.'
+                  example: null
+                price:
+                  type: number
+                  description: 'The price of the product. Must be at least 0.'
+                  example: 0.0
+                quantity:
+                  type: number
+                  description: 'The quantity of the product. Must be at least 0.'
+                  example: 0.0
+              required:
+                - name
+                - store_id
+                - price
+                - quantity
+    delete:
+      summary: 'Delete the product of the current customer'
+      operationId: deleteTheProductOfTheCurrentCustomer
+      description: ''
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Product Endpoints'
+    parameters:
+      -
+        in: path
+        name: product
+        description: 'The ID of the product.'
+        example: 7
+        required: true
+        schema:
+          type: integer
+  /api/v1/store:
+    get:
+      summary: 'Get a list of stores.'
+      operationId: getAListOfStores
+      description: 'This endpoint lets you get a list of stores'
+      parameters:
+        -
+          in: query
+          name: store_id
+          description: 'The id of the store. Default get products all stores.'
+          example: null
+          required: false
+          schema:
+            type: integer
+            description: 'The id of the store. Default get products all stores.'
+            example: null
+        -
+          in: query
+          name: limit
+          description: 'The number of resource that will show and then paginate.'
+          example: 50
+          required: false
+          schema:
+            type: integer
+            description: 'The number of resource that will show and then paginate.'
+            example: 50
+        -
+          in: query
+          name: search
+          description: 'The keyword for the name of the stores.'
+          example: null
+          required: false
+          schema:
+            type: string
+            description: 'The keyword for the name of the stores.'
+            example: null
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Store Endpoints'
+    post:
+      summary: 'Create the store of the current user'
+      operationId: createTheStoreOfTheCurrentUser
+      description: ''
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Store Endpoints'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the store.'
+                  example: No-example
+                description:
+                  type: string
+                  description: 'The description of the store.'
+                  example: null
+                address:
+                  type: string
+                  description: 'The address of the store.'
+                  example: null
+                opening_time:
+                  type: string
+                  description: 'The opening time of the store. Must be a valid date in the format <code>H:i:s</code>.'
+                  example: null
+                closing_time:
+                  type: string
+                  description: 'The closing time of the store. Must be a valid date in the format <code>H:i:s</code>.'
+                  example: null
+                full_week:
+                  type: boolean
+                  description: 'The full week of the store.'
+                  example: null
+                working_days:
+                  type: array
+                  description: "The working days of the store. \n<p>integer 1 to 7 for day</p>\n<p>For 1: Sunday</p>\n<p>For 2: Monday</p>\n<p>For 3: Tuesday</p>\n<p>For 4: Wednesday</p>\n<p>For 5: Thursday</p>\n<p>For 6: Friday</p>\n<p>For 7: Saturday</p>"
+                  example: null
+                  items:
+                    type: integer
+              required:
+                - name
+  '/api/v1/store/{id}':
+    get:
+      summary: 'Get the specific store by its id.'
+      operationId: getTheSpecificStoreByItsId
+      description: 'This endpoint lets you get the specific store by using its id'
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 32
+                    user_id: 4
+                    name: 'McLaughlin, Nitzsche and Predovic'
+                    description: 'Et deleniti quia asperiores ut illo. Harum reiciendis sed eos impedit cupiditate eveniet maxime. Vitae est qui ratione illum.'
+                    address: 'Osinskiside, Missouri, Togo, 32491 Hammes Light Suite 484'
+                    opening_time: null
+                    closing_time: null
+                    full_week: null
+                    working_days: null
+                    status: null
+                    created_at: '2023-08-21T16:18:24.000000Z'
+                    updated_at: '2023-08-21T16:18:24.000000Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 32
+                      user_id:
+                        type: integer
+                        example: 4
+                      name:
+                        type: string
+                        example: 'McLaughlin, Nitzsche and Predovic'
+                      description:
+                        type: string
+                        example: 'Et deleniti quia asperiores ut illo. Harum reiciendis sed eos impedit cupiditate eveniet maxime. Vitae est qui ratione illum.'
+                      address:
+                        type: string
+                        example: 'Osinskiside, Missouri, Togo, 32491 Hammes Light Suite 484'
+                      opening_time:
+                        type: string
+                        example: null
+                      closing_time:
+                        type: string
+                        example: null
+                      full_week:
+                        type: string
+                        example: null
+                      working_days:
+                        type: string
+                        example: null
+                      status:
+                        type: string
+                        example: null
+                      created_at:
+                        type: string
+                        example: '2023-08-21T16:18:24.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2023-08-21T16:18:24.000000Z'
+      tags:
+        - 'Store Endpoints'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the store.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: store_id
+        description: 'The id of the store.'
+        example: 17
+        required: true
+        schema:
+          type: integer
+  '/api/v1/store/{store}':
+    put:
+      summary: 'Update the store of the current user'
+      operationId: updateTheStoreOfTheCurrentUser
+      description: ''
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Store Endpoints'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the store.'
+                  example: No-example
+                description:
+                  type: string
+                  description: 'The description of the store.'
+                  example: null
+                address:
+                  type: string
+                  description: 'The address of the store.'
+                  example: null
+                opening_time:
+                  type: string
+                  description: 'The opening time of the store. Must be a valid date in the format <code>H:i:s</code>.'
+                  example: null
+                closing_time:
+                  type: string
+                  description: 'The closing time of the store. Must be a valid date in the format <code>H:i:s</code>.'
+                  example: null
+                full_week:
+                  type: string
+                  description: 'The full week of the store.'
+                  example: null
+                working_days:
+                  type: 'int[].'
+                  description: "<p>integer 1 to 7 for day</p>\n<p>For 1: Sunday</p>\n<p>For 2: Monday</p>\n<p>For 3: Tuesday</p>\n<p>For 4: Wednesday</p>\n<p>For 5: Thursday</p>\n<p>For 6: Friday</p>\n<p>For 7: Saturday</p>"
+                  example: null
+              required:
+                - name
+    delete:
+      summary: 'Delete the store of the current customer'
+      operationId: deleteTheStoreOfTheCurrentCustomer
+      description: ''
+      parameters:
+        -
+          in: header
+          name: API-KEY
+          description: ''
+          example: VAND2023Staging
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Store Endpoints'
+    parameters:
+      -
+        in: path
+        name: store
+        description: 'The ID of the store.'
+        example: 9
+        required: true
+        schema:
+          type: integer
+tags:
+  -
+    name: 'Authentication Endpoints'
+    description: "\nAPIs for authenticating user"
+  -
+    name: 'Product Endpoints'
+    description: "\nAPIs for managing product"
+  -
+    name: 'Store Endpoints'
+    description: "\nAPIs for managing store"

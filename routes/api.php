@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::namespace(env('BASE_API'))->name('api.')->middleware(['api'])->group(function () {
+
+    //Unauthenticated Routes
+    Route::group(['middleware' => ['api_key']], function () {
+        Route::group(['prefix' => 'auth'], function () {
+            Route::post('login', [LoginController::class, 'login'])->name('login');
+        });
+
+        Route::group(['prefix' => 'v1'], function () {
+            //
+        });
+    });
+
+    //Authenticated Routes
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        // Auth routes
+        Route::post('auth/logout', [LoginController::class, 'logout'])->name('logout');
+
+        Route::group(['prefix' => 'v1', 'middleware' => ['api_key']], function () {
+            include('v1/api/product.php');
+            include('v1/api/store.php');
+        });
+    });
 });
