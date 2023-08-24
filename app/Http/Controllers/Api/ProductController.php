@@ -32,6 +32,7 @@ class ProductController extends Controller
      * This endpoint lets you get a list of products
      * @authenticated
      *
+     * @queryParam store_id int The id of the store. Default get products all stores. No-example
      * @queryParam limit integer The number of resource that will show and then paginate. Example: 50
      * @queryParam search string The keyword for the name or the slug of the products. No-example
      *

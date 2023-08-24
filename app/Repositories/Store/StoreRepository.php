@@ -67,14 +67,9 @@ class StoreRepository extends BaseRepository implements StoreRepositoryInterface
     {
         $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
         $keyword = Arr::get($searchParams, 'search', '');
-        $storeId = Arr::get($searchParams, 'store_id', '');
 
         $query = $this->model->query();
         $query->where('user_id', auth()->id());
-
-        if ($storeId) {
-            $query->where('store_id', $storeId);
-        }
 
         if ($keyword) {
             if (is_array($keyword)) {
